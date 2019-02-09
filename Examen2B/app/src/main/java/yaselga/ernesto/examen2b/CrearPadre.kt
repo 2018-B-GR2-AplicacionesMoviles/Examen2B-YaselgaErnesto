@@ -78,7 +78,7 @@ class CrearPadre : AppCompatActivity() {
                                 val data = result.get()
                                 Log.i("http-p", data)
                                 mensaje(this,"Aceptado","Datos validos, espere...")
-                                cargarDatosSO(direccion, ::irlistarSo)
+                                cargarDatosPaciente(direccion, ::irlistarSo)
                             }
                         }
                     }
@@ -99,7 +99,7 @@ class CrearPadre : AppCompatActivity() {
                                 Log.i("http-p", data)
                                 mensaje(this,"Aceptado","Datos validos, espere...")
                                 val redire = "http://$ip:8000/sistemas/api/"
-                                cargarDatosSO(redire, ::irlistarSo)
+                                cargarDatosPaciente(redire, ::irlistarSo)
                             }
                         }
                     }
@@ -109,6 +109,7 @@ class CrearPadre : AppCompatActivity() {
     }
 
     fun irlistarSo(){
+        finish()
         val intent = Intent(
                 this,
                 ListarPadresActivity::class.java

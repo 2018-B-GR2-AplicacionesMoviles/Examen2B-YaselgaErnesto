@@ -45,7 +45,7 @@ class ListarPadresActivity : AppCompatActivity() {
         finish()
         val direccion = "http://${BDD.ip}:8000/sistemas/api/"
         Log.i("http",direccion)
-        cargarDatosSO(direccion,fun(){})
+        cargarDatosPaciente(direccion,fun(){})
         startActivity(getIntent());
     }
 
@@ -86,7 +86,12 @@ class ListarPadresActivity : AppCompatActivity() {
                     Log.i("http", "Datos: ${wordDict.toString()}")
                     if (wordDict != null) {
                         for ( item in wordDict.iterator()){
-                            BDD.Medicamentos.add(item)
+                            if(paciente.id!=null){
+                                if(paciente.id==item.paciente){
+                                    BDD.Medicamentos.add(item)
+                                }
+                            }
+
                         }
                     }
 
@@ -175,10 +180,10 @@ class SistemaOpAdaptador(private val listaPacientes: List<Paciente>,
                 when (item.getItemId()) {
                     R.id.eliminar_so ->{
                         //handle menu1 click
-                        mensaje_dialogo(contexto,"Eliminar el SO?",
+                        mensaje_dialogo(contexto,"Eliminar el Paciente?",
                                 fun (){
                                     val id = holder.idSOTextView.text.toString()
-                                    Log.i("Eliminar SO->",id)
+                                    Log.i("Eliminar Paciente->",id)
 
                                     val direccion = "http://${BDD.ip}:8000/sistemas/api/"
                                     Log.i("http",direccion)
@@ -215,11 +220,11 @@ class SistemaOpAdaptador(private val listaPacientes: List<Paciente>,
 
                     R.id.editar_so ->{
                         val id = holder.idSOTextView.text.toString()
-                        mensaje_dialogo(contexto,"Desea editar el SO?",
+                        mensaje_dialogo(contexto,"Desea editar el Paciente?",
 
                                 fun(){
                                     val so = Pacientes.filter { it.id==id.toInt() }[0]
-                                    Log.i("Actualizar SO->",so.fechaNacimiento)
+                                    Log.i("Actualizar Paciente->",so.fechaNacimiento)
                                     val soSerializado = PacienteSe(
                                             id.toInt(),
                                             nombre = so.nombre,
@@ -247,7 +252,7 @@ class SistemaOpAdaptador(private val listaPacientes: List<Paciente>,
                         var direccion = ""
                         val id = holder.idSOTextView.text.toString()
                         val so = Pacientes.filter { it.id==id.toInt() }[0]
-                        Log.i("Listar SO->",so.id.toString())
+                        Log.i("Listar Paciente->",so.id.toString())
                         val soSerializado = PacienteSe(
                                 id.toInt(),
                                 nombre = so.nombre,

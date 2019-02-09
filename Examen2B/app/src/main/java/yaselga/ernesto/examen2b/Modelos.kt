@@ -20,7 +20,7 @@ class Medicamento(
         var gramosAingerir: String,
         var numeroPastillas:Int,
         var usadoPara:String,
-        var codigo_barras:String,
+        var codigo_barras:String?,
         var paciente: Int?
 ){}
 
@@ -72,8 +72,8 @@ class MedicamentoSe(
         var gramosAingerir: String,
         var numeroPastillas:Int,
         var usadoPara:String,
-        var codigo_barras:String,
-        var paciente: Int
+        var codigo_barras:String?,
+        var paciente: Int?
 ):Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -83,8 +83,8 @@ class MedicamentoSe(
             parcel.readString(),
             parcel.readInt(),
             parcel.readString(),
-            parcel.readString(),
-            parcel.readInt()) {
+            parcel.readValue(String::class.java.classLoader) as? String,
+            parcel.readValue(Int::class.java.classLoader) as? Int) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -95,8 +95,8 @@ class MedicamentoSe(
         parcel.writeString(gramosAingerir)
         parcel.writeInt(numeroPastillas)
         parcel.writeString(usadoPara)
-        parcel.writeString(codigo_barras)
-        parcel.writeInt(paciente)
+        parcel.writeValue(codigo_barras)
+        parcel.writeValue(paciente)
     }
 
     override fun describeContents(): Int {

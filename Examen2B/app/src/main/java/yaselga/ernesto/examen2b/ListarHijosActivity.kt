@@ -71,7 +71,7 @@ class ListarHijosActivity : AppCompatActivity() {
         finish()
         val direccion = "http://${BDD.ip}:8000/sistemas/api/app/?so=$id_so"
         Log.i("http",direccion)
-        cargarDatosApp(direccion,fun(){})
+        cargarDatosMedicina(id_so,direccion,fun(){})
         startActivity(getIntent())
     }
 
@@ -181,10 +181,10 @@ class AppAdaptador(private val listaMedicamentos: List<Medicamento>,
                 when (item.getItemId()) {
                     R.id.eliminar_so ->{
                         //handle menu1 click
-                        mensaje_dialogo(contexto,"Eliminar la APP?",
+                        mensaje_dialogo(contexto,"Eliminar el Medicamento?",
                                 fun (){
                                     val id = holder.idAppTextView.text.toString()
-                                    Log.i("Eliminar APP->",id)
+                                    Log.i("Eliminar Medicina->",id)
 
                                     val parametros = listOf("nombre" to id)
                                     val url = "http://${BDD.ip}:8000/sistemas/api/app/$id/delete"
@@ -222,7 +222,7 @@ class AppAdaptador(private val listaMedicamentos: List<Medicamento>,
                         mensaje_dialogo(contexto,"Desea editar la Medicamento?",
                                 fun(){
                                     val app = Medicamentos.filter { it.id==id.toInt() }[0]
-                                    Log.i("Actualizar SO->",app.fechaCaducidad)
+                                    Log.i("Actualizar Paciente->",app.fechaCaducidad)
                                     val appSerializada = MedicamentoSe(
                                             id.toInt(),
                                             nombre = app.nombre,
@@ -231,7 +231,7 @@ class AppAdaptador(private val listaMedicamentos: List<Medicamento>,
                                             gramosAingerir = app.gramosAingerir,
                                             numeroPastillas = app.numeroPastillas,
                                             usadoPara = app.usadoPara,
-                                            codigo_barras = app.codigo_barras,
+                                            codigo_barras = app.codigo_barras!!,
                                             paciente = app.paciente!!
                                     )
                                     contexto.irActualizar(appSerializada)

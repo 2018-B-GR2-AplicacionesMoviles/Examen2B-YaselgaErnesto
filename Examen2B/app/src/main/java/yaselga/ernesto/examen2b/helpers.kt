@@ -46,7 +46,7 @@ fun mensaje_dialogo(actividad:Activity,contenido:String,funcion: () -> Unit){
     dialogo.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLUE)
 }
 
-fun cargarDatosSO(url:String,funcion_intent: () -> Unit){
+fun cargarDatosPaciente(url:String, funcion_intent: () -> Unit){
     url.httpGet().responseString{request, response, result ->
         when (result) {
             is Result.Failure -> {
@@ -74,7 +74,8 @@ fun cargarDatosSO(url:String,funcion_intent: () -> Unit){
 
 }
 
-fun cargarDatosApp(url:String,funcion_intent: () -> Unit){
+
+fun cargarDatosMedicina(id_paciente:Int, url:String, funcion_intent: () -> Unit){
     url.httpGet().responseString{request, response, result ->
         when (result) {
             is Result.Failure -> {
@@ -88,7 +89,10 @@ fun cargarDatosApp(url:String,funcion_intent: () -> Unit){
                 Log.i("http", "Datos: ${wordDict.toString()}")
                 if (wordDict != null) {
                     for ( item in wordDict.iterator()){
-                        Medicamentos.add(item)
+                        if(id_paciente==item.paciente){
+                            Medicamentos.add(item)
+                        }
+
                     }
                 }
 

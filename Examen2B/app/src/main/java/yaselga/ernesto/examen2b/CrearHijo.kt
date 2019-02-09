@@ -34,7 +34,7 @@ class CrearHijo : AppCompatActivity() {
             tomarFoto()
         }
 
-        val aplicacion = intent.getParcelableExtra<MedicamentoSe?>("aplicacion")
+        val medicina = intent.getParcelableExtra<MedicamentoSe?>("aplicacion")
         val pacienteVal = intent.getParcelableExtra<PacienteSe?>("sistema")
 
 
@@ -42,16 +42,16 @@ class CrearHijo : AppCompatActivity() {
         //val sistema: Paciente? = null
         var esnuevo = true
 
-        if (aplicacion != null) {
-            txt_id_medicamento.setText(aplicacion.id.toString())
-            txt_nombre_med.setText(aplicacion.nombre)
-            txt_composicion_med.setText(aplicacion.composicion)
-            txt_fecha_app.setText(aplicacion.fechaCaducidad)
-            txt_gramosAingerir.setText(aplicacion.gramosAingerir)
-            txt_numero_pastillas.setText(aplicacion.numeroPastillas.toString())
-            txt_usos.setText(aplicacion.usadoPara)
-            txt_id_med.setText(aplicacion.codigo_barras)
-            id_so=aplicacion.paciente
+        if (medicina != null) {
+            txt_id_medicamento.setText(medicina.id.toString())
+            txt_nombre_med.setText(medicina.nombre)
+            txt_composicion_med.setText(medicina.composicion)
+            txt_fecha_app.setText(medicina.fechaCaducidad)
+            txt_gramosAingerir.setText(medicina.gramosAingerir)
+            txt_numero_pastillas.setText(medicina.numeroPastillas.toString())
+            txt_usos.setText(medicina.usadoPara)
+            txt_id_med.setText(medicina.codigo_barras)
+            id_so= medicina.paciente!!
             esnuevo = false
         }
 
@@ -67,7 +67,7 @@ class CrearHijo : AppCompatActivity() {
 
         btn_cancelar_app.setOnClickListener {
             val redire = "http://${BDD.ip}:8000/sistemas/api/app/?id=$id_so"
-            cargarDatosApp(redire,::irlistarApp)
+            cargarDatosMedicina(id_so,redire,::irlistarApp)
         }
 
 
@@ -174,13 +174,13 @@ class CrearHijo : AppCompatActivity() {
         val gramosAingerir = txt_gramosAingerir.text.toString()
         val numeroPastillas = txt_numero_pastillas.text.toString()
         val usadoPara = txt_usos.text.toString()
-        val codigo_barras = txt_id_med.text.toString()
+        val codigo_barras = "0"
 
         val app:Medicamento
         if(es_nuevo){
-            app = Medicamento(id=null,nombre = nombre,composicion =  composicion,fechaCaducidad =  fecha,gramosAingerir =  gramosAingerir,numeroPastillas = numeroPastillas.toInt(),usadoPara = usadoPara,codigo_barras = codigo_barras,paciente = id_so)
+            app = Medicamento(id=null,nombre = nombre,composicion =  composicion,fechaCaducidad =  fecha,gramosAingerir =  gramosAingerir,numeroPastillas = numeroPastillas.toInt(),usadoPara = usadoPara,codigo_barras = codigo_barras,paciente = id_so.toInt())
         }else{
-            app = Medicamento(id=id.toInt(),nombre = nombre,composicion =  composicion,fechaCaducidad =  fecha,gramosAingerir =  gramosAingerir,numeroPastillas = numeroPastillas.toInt(),usadoPara = usadoPara,codigo_barras = codigo_barras,paciente = id_so)
+            app = Medicamento(id=id.toInt(),nombre = nombre,composicion =  composicion,fechaCaducidad =  fecha,gramosAingerir =  gramosAingerir,numeroPastillas = numeroPastillas.toInt(),usadoPara = usadoPara,codigo_barras = codigo_barras,paciente = id_so.toInt())
         }
 
         //Crear objeto
@@ -213,7 +213,7 @@ class CrearHijo : AppCompatActivity() {
                                 Log.i("http-p", data)
                                 mensaje(this,"Aceptado","Datos validos, espere...")
                                 val redire = "http://${BDD.ip}:8000/sistemas/api/app/?id=$id_so"
-                                cargarDatosApp(redire,::irlistarApp)
+                                cargarDatosMedicina(id_so,redire,::irlistarApp)
                             }
                         }
                     }
@@ -234,7 +234,7 @@ class CrearHijo : AppCompatActivity() {
                                 Log.i("http-p", data)
                                 mensaje(this,"Aceptado","Datos validos, espere...")
                                 val redire = "http://${BDD.ip}:8000/sistemas/api/app/?id=$id_so"
-                                cargarDatosApp(redire,::irlistarApp)
+                                cargarDatosMedicina(id_so,redire,::irlistarApp)
                             }
                         }
                     }
@@ -242,8 +242,6 @@ class CrearHijo : AppCompatActivity() {
         Log.i("http",direccion)
 
     }
-
-
 
     companion object {
         val TOMAR_FOTO_REQUEST = 1;

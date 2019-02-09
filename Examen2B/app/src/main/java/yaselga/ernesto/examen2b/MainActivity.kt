@@ -16,17 +16,17 @@ class MainActivity : AppCompatActivity() {
         boton_listar.setOnClickListener {
             val direccion = "http://$ip:8000/sistemas/api/"
             Log.i("http",direccion)
-            cargarDatosSO(direccion,::irActividadListarOS)
+            cargarDatosPaciente(direccion,::irActividadListarPacientes)
         }
 
         boton_crear_padre.setOnClickListener{
-            irActividadCrearOS()
+            irActividadCrearPaciente()
         }
 
 
     }
 
-    fun irActividadCrearOS(){
+    fun irActividadCrearPaciente(){
         val intent = Intent(
                 this,
                 CrearPadre::class.java
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irActividadListarOS(){
-        finish()
+    fun irActividadListarPacientes(){
+
         // 1 Cargar datos de la API
         // 2 Ir al Intent
         // 3 Hacer esa cosa de matar al stack
